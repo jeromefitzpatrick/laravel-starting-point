@@ -1,0 +1,61 @@
+<?php
+
+namespace JeromeFitzpatrick\StartingPoint;
+
+use Illuminate\Support\ServiceProvider;
+
+class StartingPointServiceProvider extends ServiceProvider
+{
+    /**
+     * Bootstrap any package services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->registerResources();
+        $this->registerPublishing();
+    }
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->configure();
+    }
+
+    /**
+     * Setup the configuration for Cashier.
+     *
+     * @return void
+     */
+    protected function configure()
+    {
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/starting-point.php', 'starting-point'
+        );
+    }
+
+    /**
+     * Register the package resources.
+     *
+     * @return void
+     */
+    protected function registerResources()
+    {
+        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'starting-point');
+    }
+
+    /**
+     * Register the package's publishable resources.
+     *
+     * @return void
+     */
+    protected function registerPublishing()
+    {
+        // Maybe want to register some publishesings...
+    }
+}
