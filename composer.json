@@ -1,11 +1,11 @@
 {
     "name": "jeromefitzpatrick/laravel-starting-point",
-    "description": "Starting Point provides an 80% use case starting point for API driven applications",
+    "description": "Laravel Starting Point provides an 80% use case starting point for API driven applications",
     "keywords": ["laravel", "starting point", "bootstrap"],
     "license": "MIT",
     "support": {
-        "issues": "https://jeromefitzpatrick.com/",
-        "source": "https://github.com/laravel/cashier"
+        "issues": "https://github.com/jeromefitzpatrick/laravel-starting-point/issues",
+        "source": "https://github.com/jeromefitzpatrick/laravel-starting-point"
     },
     "authors": [
         {
