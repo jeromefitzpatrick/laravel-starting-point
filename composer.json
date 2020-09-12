@@ -1,5 +1,5 @@
 {
-    "name": "jeromefitzpatrick/starting-point",
+    "name": "jeromefitzpatrick/laravel-starting-point",
     "description": "Starting Point provides an 80% use case starting point for API driven applications",
     "keywords": ["laravel", "starting point", "bootstrap"],
     "license": "MIT",
