@@ -28,7 +28,7 @@ abstract class ModelResponse
     /**
      * Return the transformer
      */
-    protected function getTransformer(): TransformerAbstract
+    public function getTransformer(): TransformerAbstract
     {
         return $this->transformer;
     }
@@ -36,7 +36,7 @@ abstract class ModelResponse
     /**
      * Return the model
      */
-    protected function getModel(): Model
+    public function getModel(): Model
     {
         return $this->model;
     }
@@ -44,7 +44,7 @@ abstract class ModelResponse
     /**
      * Return the default includes / relations for this model
      */
-    protected function getDefaultRelations(): array
+    public function getDefaultRelations(): array
     {
         return $this->defaultRelations;
     }
@@ -52,7 +52,7 @@ abstract class ModelResponse
     /**
      * Return response meta data
      */
-    protected function getMeta(): array
+    public function getMeta(): array
     {
         return [];
     }
