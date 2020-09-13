@@ -26,9 +26,9 @@ abstract class ModelResponse
     protected $defaultRelations = [];
 
     /**
-     * Return the transformer
+     * Return the transformer class reference
      */
-    public function getTransformer(): TransformerAbstract
+    public function getTransformer(): string
     {
         return $this->transformer;
     }
