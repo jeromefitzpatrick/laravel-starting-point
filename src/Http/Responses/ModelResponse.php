@@ -1,14 +1,62 @@
 <?php
 
-namespace JeromeFitzpatrick\StartingPoint\Http\Concerns;
+namespace JeromeFitzpatrick\StartingPoint\Http\Responses;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
+use League\Fractal\TransformerAbstract;
 
-trait RespondsToRequests
+abstract class ModelResponse
 {
+    /**
+     * @var TransformerAbstract
+     */
+    protected $transformer = null;
+
+    /**
+     * @var Model
+     */
+    protected $model = null;
+
+    /**
+     * @var array
+     */
+    protected $defaultRelations = [];
+
+    /**
+     * Return the transformer
+     */
+    protected function getTransformer(): TransformerAbstract
+    {
+        return $this->transformer;
+    }
+
+    /**
+     * Return the model
+     */
+    protected function getModel(): Model
+    {
+        return $this->model;
+    }
+
+    /**
+     * Return the default includes / relations for this model
+     */
+    protected function getDefaultRelations(): array
+    {
+        return $this->defaultRelations;
+    }
+
+    /**
+     * Return response meta data
+     */
+    protected function getMeta(): array
+    {
+        return [];
+    }
+
     /**
      * Returns the transformed item as an array
      */
@@ -19,7 +67,7 @@ trait RespondsToRequests
 
         return fractal()
             ->item($resource)
-            ->transformWith($this->transformer)
+            ->transformWith($this->getTransformer())
             ->parseIncludes($relations)
             ->toArray();
     }
@@ -34,7 +82,7 @@ trait RespondsToRequests
 
         return fractal()
             ->collection($resources)
-            ->transformWith($this->transformer)
+            ->transformWith($this->getTransformer())
             ->parseIncludes($relations)
             ->paginateWith(new IlluminatePaginatorAdapter($resources))
             ->addMeta($this->getMeta())
@@ -46,16 +94,8 @@ trait RespondsToRequests
      */
     public function getIncludes(array $relations = null): array
     {
-        $relations = array_merge($relations ?? [], $this->defaultRelations ?? []);
+        $relations = array_merge($relations ?? [], $this->getDefaultRelations() ?? []);
         return array_unique($relations);
-    }
-
-    /**
-     * Returns an Eloquent Model
-     */
-    public function model(): Model
-    {
-        return new $this->model;
     }
 
     /**
@@ -65,18 +105,10 @@ trait RespondsToRequests
     {
         return array_filter(array_map(function($relation) {
             $camelCased = Str::camel($relation);
-            if (method_exists($this->model(), $camelCased) || strpos($relation, '.')) {
+            if (method_exists($this->getModel(), $camelCased) || strpos($relation, '.')) {
                 return $camelCased;
             }
             return null;
         }, $relations));
-    }
-
-    /**
-     * @return array
-     */
-    protected function getMeta()
-    {
-        return [];
     }
 }
