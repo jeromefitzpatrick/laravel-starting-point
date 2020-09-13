@@ -38,7 +38,7 @@ abstract class ModelResponse
      */
     public function getModel(): Model
     {
-        return $this->model;
+        return app()->make($this->model);
     }
 
     /**
