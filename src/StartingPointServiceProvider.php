@@ -63,7 +63,9 @@ class StartingPointServiceProvider extends ServiceProvider
      */
     protected function registerPublishing()
     {
-        // Maybe want to register some publishesings...
+        $this->publishes([
+            __DIR__.'/stubs/js' => app_path('resources/js'),
+        ], 'js');
     }
 
     protected function registerCommands()
@@ -79,4 +81,5 @@ class StartingPointServiceProvider extends ServiceProvider
             ]);
         }
     }
+
 }
