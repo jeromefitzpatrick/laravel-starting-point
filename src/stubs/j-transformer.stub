@@ -1,0 +1,48 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Models\{{ model }};
+use League\Fractal\TransformerAbstract;
+
+class {{ model }}Transformer extends TransformerAbstract
+{
+    /**
+     * List of resources to automatically include
+     *
+     * @var array
+     */
+    protected $defaultIncludes = [
+        //
+    ];
+
+    /**
+     * List of resources possible to include
+     *
+     * @var array
+     */
+    protected $availableIncludes = [
+        //
+    ];
+
+    /**
+     * A Fractal transformer.
+     *
+     * @return array
+     */
+    public function transform({{ model }} ${{ modelVariable }}): array
+    {
+        return [
+            'id' => ${{ modelVariable }}->id,
+            'created_at' => ${{ modelVariable }}->created_at->format('c'),
+            'updated_at' => ${{ modelVariable }}->updated_at->format('c'),
+        ];
+    }
+
+  /*
+    public function includeModel({{ model }} ${{ modelVariable }})
+    {
+        return $this->item(${{ modelVariable }}->model, new ModelTransformer());
+    }
+  */
+}

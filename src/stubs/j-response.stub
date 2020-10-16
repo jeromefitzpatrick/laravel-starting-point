@@ -1,0 +1,13 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Models\{{ model }};
+use App\Transformers\{{ model }}Transformer;
+use JeromeFitzpatrick\StartingPoint\Http\Responses\ModelResponse;
+
+class {{ model }}Response extends ModelResponse
+{
+    protected $transformer = {{ model }}Transformer::class;
+    protected $model = {{ model }}::class;
+}

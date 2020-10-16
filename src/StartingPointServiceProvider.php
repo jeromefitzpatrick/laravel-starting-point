@@ -3,6 +3,12 @@
 namespace JeromeFitzpatrick\StartingPoint;
 
 use Illuminate\Support\ServiceProvider;
+use JeromeFitzpatrick\StartingPoint\Console\Commands\MakeJModel;
+use JeromeFitzpatrick\StartingPoint\Console\Commands\MakeJRequest;
+use JeromeFitzpatrick\StartingPoint\Console\Commands\MakeJResource;
+use JeromeFitzpatrick\StartingPoint\Console\Commands\MakeJResponse;
+use JeromeFitzpatrick\StartingPoint\Console\Commands\MakeJController;
+use JeromeFitzpatrick\StartingPoint\Console\Commands\MakeJTransformer;
 
 class StartingPointServiceProvider extends ServiceProvider
 {
@@ -15,6 +21,7 @@ class StartingPointServiceProvider extends ServiceProvider
     {
         $this->registerResources();
         $this->registerPublishing();
+        $this->registerCommands();
     }
 
     /**
@@ -57,5 +64,19 @@ class StartingPointServiceProvider extends ServiceProvider
     protected function registerPublishing()
     {
         // Maybe want to register some publishesings...
+    }
+
+    protected function registerCommands()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                MakeJController::class,
+                MakeJModel::class,
+                MakeJRequest::class,
+                MakeJResource::class,
+                MakeJResponse::class,
+                MakeJTransformer::class,
+            ]);
+        }
     }
 }

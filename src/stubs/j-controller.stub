@@ -1,0 +1,45 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ rootNamespace }}Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use {{ rootNamespace }}Models\{{ model }};
+use {{ rootNamespace }}Http\Requests\{{ model }}Request;
+use {{ rootNamespace }}Http\Responses\{{ model }}Response;
+
+class {{ class }} extends Controller
+{
+    protected $response;
+
+    public function __construct({{ model }}Response $response)
+    {
+        $this->response = $response;
+    }
+
+    public function index(Request $request)
+    {
+        $query = $this->response->getModel()
+            ->search($request->search)
+            ->tableSort($request->sortBy ?? ['created_at'], $request->sortDesc ?? [true]);
+        return response()->json($this->response->transformedCollection($query, $request->includes));
+    }
+
+    public function store({{ model }}Request $request)
+    {
+        return response()->json(
+            $this->response->transformed(
+                $this->response->getModel()->create(array_merge($request->validated())),
+                $request->includes
+            ),
+            Response::HTTP_CREATED
+        );
+    }
+
+    public function update({{ model }}Request $request, {{ model }} ${{ modelVariable }})
+    {
+        ${{ modelVariable }}->update($request->validated());
+        return response()->json($this->response->transformed(${{ modelVariable }}->fresh(), $request->includes));
+    }
+}
