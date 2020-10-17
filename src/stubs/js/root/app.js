@@ -9,7 +9,7 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 /**
- * Remember to: npm i moment vue-loading-overlay vue-notification vuetify es6-promise
+ * Remember to: npm i moment vue-loading-overlay vue-notification vuetify es6-promise @mdi/font
  * Also npm i vuetifyjs-mix-extension -D
  */
 
@@ -37,7 +37,7 @@ Vue.prototype.$http = axios;
 Vue.prototype.moment = moment;
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('user-index', require('../components/Users/UserIndex.vue').default);
+Vue.component('user-index', require('./components/Users/UserIndex.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
