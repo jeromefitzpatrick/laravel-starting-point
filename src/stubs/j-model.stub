@@ -2,9 +2,11 @@
 
 namespace {{ namespace }};
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use App\Models\Concerns\Searchable;
+use App\Models\Concerns\TableSortable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @property int $id
@@ -14,7 +16,14 @@ use Illuminate\Support\Carbon;
 
 class {{ class }} extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable, TableSortable;
 
     protected $guarded = [];
+
+    /**
+     * @var array
+     */
+    protected $searchables = [
+    //  ["column" => "name"],
+    ];
 }
