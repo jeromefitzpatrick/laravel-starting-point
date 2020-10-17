@@ -37,6 +37,7 @@ Vue.prototype.$http = axios;
 Vue.prototype.moment = moment;
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('j-errors', require('./JCommon/Errors/JErrors.vue').default);
 Vue.component('user-index', require('./components/Users/UserIndex.vue').default);
 
 /**

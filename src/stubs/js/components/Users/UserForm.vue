@@ -13,12 +13,6 @@
         <v-col cols="12">
           <v-text-field v-model="slotProps.form.data.email" label="Email" autocomplete="new-password"></v-text-field>
         </v-col>
-        <v-col cols="12">
-          <v-checkbox
-            v-model="slotProps.form.data.enabled"
-            label="Enabled"
-          ></v-checkbox>
-        </v-col>
       </v-row>
     </template>
   </j-resource-form-modal>
@@ -35,7 +29,6 @@
           return {
             name: "",
             email: "",
-            enabled: false,
             includes: []
           }
         }

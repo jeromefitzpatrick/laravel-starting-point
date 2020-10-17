@@ -55,7 +55,6 @@
               { text: 'ID', value: 'id', width: '5%' },
               { text: 'Name', value: 'name', width: '25%' },
               { text: 'Email', value: 'email', width: '25%' },
-              { text: 'Enabled', value: 'enabled' },
               { text: 'Actions', align: 'right', value: 'action', sortable: false }
             ],
           },
@@ -63,7 +62,7 @@
             url: '/local-api/users',
           },
           api: {
-            sortBy: ['enabled', 'name'],
+            sortBy: ['name'],
             sortDesc: [true, false],
             includes: [],
             search: ""
