@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Concerns;
+namespace JeromeFitzpatrick\StartingPoint\Models\Concerns;
 
 use Illuminate\Database\Eloquent\Builder;
 

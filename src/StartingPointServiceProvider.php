@@ -78,10 +78,6 @@ class StartingPointServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/stubs/js/approot' => base_path(),
         ], 'jcommon');
-
-        $this->publishes([
-            __DIR__.'/stubs/app/Models/Concerns' => app_path('Models/Concerns'),
-        ], 'phpcommon');
     }
 
     protected function registerCommands()
