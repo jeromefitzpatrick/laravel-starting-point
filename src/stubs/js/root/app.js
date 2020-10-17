@@ -11,6 +11,7 @@ window.Vue = require('vue');
 /**
  * Remember to: npm i moment vue-loading-overlay vue-notification vuetify es6-promise @mdi/font
  * Also npm i vuetifyjs-mix-extension -D
+ * And wrap the content i <v-app></v-app>
  */
 
 import vuetify from './vuetify'

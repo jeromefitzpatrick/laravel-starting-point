@@ -13,11 +13,11 @@
         <v-container>
           <v-row>
             <v-col cols="12">
-              <errors
+              <j-errors
                 :submitting="form.submitting"
                 :errors="form.errors"
               >
-              </errors>
+              </j-errors>
             </v-col>
           </v-row>
           <slot v-bind:form="form">
