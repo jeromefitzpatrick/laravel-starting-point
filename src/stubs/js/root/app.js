@@ -8,6 +8,10 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+/**
+ * Remember to: npm i moment vue-loading-overlay vue-notification vuetify
+ */
+
 import vuetify from './vuetify'
 import 'es6-promise/auto'
 import Notifications from 'vue-notification'

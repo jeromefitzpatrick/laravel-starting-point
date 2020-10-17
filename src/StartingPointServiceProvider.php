@@ -76,7 +76,7 @@ class StartingPointServiceProvider extends ServiceProvider
         ], 'jcommon');
 
         $this->publishes([
-            __DIR__.'/stubs/js/approot' => app_path(),
+            __DIR__.'/stubs/js/approot' => base_path(),
         ], 'jcommon');
     }
 
