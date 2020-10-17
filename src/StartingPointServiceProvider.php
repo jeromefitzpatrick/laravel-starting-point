@@ -64,7 +64,19 @@ class StartingPointServiceProvider extends ServiceProvider
     protected function registerPublishing()
     {
         $this->publishes([
-            __DIR__.'/stubs/js' => resource_path('js'),
+            __DIR__.'/stubs/js/components' => resource_path('js/components'),
+        ], 'jcommon');
+
+        $this->publishes([
+            __DIR__.'/stubs/js/JCommon' => resource_path('js/JCommon'),
+        ], 'jcommon');
+
+        $this->publishes([
+            __DIR__.'/stubs/js/root' => resource_path('js'),
+        ], 'jcommon');
+
+        $this->publishes([
+            __DIR__.'/stubs/js/approot' => app_path(),
         ], 'jcommon');
     }
 
