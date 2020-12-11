@@ -21,7 +21,7 @@ abstract class ModelResponse
     protected $model = null;
 
     /**
-     * @var array
+     * @var array Default includes (not relations)
      */
     protected $defaultRelations = [];
 
@@ -60,55 +60,56 @@ abstract class ModelResponse
     /**
      * Returns the transformed item as an array
      */
-    public function transformed(Model $resource, $relations = null): array
+    public function transformed(Model $resource, array $includes = null): array
     {
-        $relations = $this->getIncludes($relations);
-        $resource->loadMissing($this->extractRelations($relations));
+        $includes = $this->getIncludes($includes);
+        $resource->loadMissing($this->extractRelations($includes));
 
         return fractal()
             ->item($resource)
             ->transformWith($this->getTransformer())
-            ->parseIncludes($relations)
+            ->parseIncludes($includes)
             ->toArray();
     }
 
     /**
      * Returns the transformed collection as an array
      */
-    public function transformedCollection(Builder $query, array $relations = null): array
+    public function transformedCollection(Builder $query, array $includes = null): array
     {
-        $relations = $this->getIncludes($relations);
-        $resources = $query->with($this->extractRelations($relations))->paginate(request()->get('itemsPerPage',15));
+        $includes = $this->getIncludes($includes);
+        $resources = $query
+            ->with(array_diff( $this->extractRelations($includes), array_keys($query->getEagerLoads())))
+            ->paginate(request()->get('itemsPerPage',15));
 
         return fractal()
             ->collection($resources)
             ->transformWith($this->getTransformer())
-            ->parseIncludes($relations)
+            ->parseIncludes($includes)
             ->paginateWith(new IlluminatePaginatorAdapter($resources))
             ->addMeta($this->getMeta())
             ->toArray();
     }
 
     /**
-     * Returns merged requested relations and default relations
+     * Returns merged requested includes and default includes
      */
-    public function getIncludes(array $relations = null): array
+    public function getIncludes(array $includes = null): array
     {
-        $relations = array_merge($relations ?? [], $this->getDefaultRelations() ?? []);
-        return array_unique($relations);
+        return array_unique(array_merge($includes ?? [], $this->getDefaultRelations() ?? []));
     }
 
     /**
      * Converts snake case includes to camel case and returns the ones that are valid relations
      */
-    protected function extractRelations(array $relations): array
+    protected function extractRelations(array $includes): array
     {
-        return array_filter(array_map(function($relation) {
-            $camelCased = Str::camel($relation);
-            if (method_exists($this->getModel(), $camelCased) || strpos($relation, '.')) {
+        return array_filter(array_map(function($include) {
+            $camelCased = Str::camel($include);
+            if (method_exists($this->getModel(), $camelCased) || strpos($include, '.')) {
                 return $camelCased;
             }
             return null;
-        }, $relations));
+        }, $includes));
     }
 }
