@@ -14,11 +14,18 @@ trait Searchable
         }
 
         if (is_array($term)) {
-            $searchableColumns = collect($this->searchables)->pluck('column')->toArray();
+            $searchableColumns = collect($this->searchables);
             foreach ($term as $col => $val) {
-                if (in_array($col, $searchableColumns)) {
-                    $this->addConstraint($query, [['column' => $col]], $val);
+                if (!$column = $searchableColumns->firstWhere('column', $col)) {
+                    continue;
                 }
+
+                if (array_key_exists('scope', $column)) {
+                    $this->addScope($query, $column['scope'], $val);
+                    continue;
+                }
+
+                $this->addConstraint($query, [['column' => $col]], $val);
             }
         }
 
@@ -29,10 +36,20 @@ trait Searchable
         return $query;
     }
 
+    protected function addScope(Builder $query, $scope, $term)
+    {
+        return $query->{$scope}($term);
+    }
+
     protected function addConstraint(Builder $query, $searchables, $term)
     {
         $query->where(function (Builder $query) use ($term, $searchables) {
             foreach ($searchables as $searchable) {
+                // Ignore filter only searches
+                if ($searchable['filter'] ?? null) {
+                    continue;
+                }
+
                 if (!isset($searchable['relation'])) {
                     $this->shouldConcat($searchable['column']) ?
                         $query->orWhere(DB::raw(
