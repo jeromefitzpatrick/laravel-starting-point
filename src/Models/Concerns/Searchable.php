@@ -9,12 +9,30 @@ trait Searchable
 {
     public function scopeSearch(Builder $query, $term = null)
     {
-        if (is_null($term) || !$this->searchables ?? []) {
+        if (is_null($term) || (is_array($term) && empty($term)) || !$this->searchables ?? []) {
             return $query;
         }
 
-        $query->where(function (Builder $query) use ($term) {
-            foreach ($this->searchables as $searchable) {
+        if (is_array($term)) {
+            $searchableColumns = collect($this->searchables)->pluck('column')->toArray();
+            foreach ($term as $col => $val) {
+                if (in_array($col, $searchableColumns)) {
+                    $this->addConstraint($query, [['column' => $col]], $val);
+                }
+            }
+        }
+
+        if (is_string($term)) {
+            $this->addConstraint($query, $this->searchables, $term);
+        }
+
+        return $query;
+    }
+
+    protected function addConstraint(Builder $query, $searchables, $term)
+    {
+        $query->where(function (Builder $query) use ($term, $searchables) {
+            foreach ($searchables as $searchable) {
                 if (!isset($searchable['relation'])) {
                     $this->shouldConcat($searchable['column']) ?
                         $query->orWhere(DB::raw(
@@ -45,7 +63,6 @@ trait Searchable
                 }
             }
         });
-        return $query;
     }
 
     protected function searchGetConcatString($fields)
