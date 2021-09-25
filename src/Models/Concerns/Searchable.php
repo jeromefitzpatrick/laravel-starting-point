@@ -16,6 +16,9 @@ trait Searchable
         if (is_array($term)) {
             $searchableColumns = collect($this->searchables);
             foreach ($term as $col => $val) {
+                if (is_null($val)) {
+                    continue;
+                }
                 if (!$column = $searchableColumns->firstWhere('column', $col)) {
                     continue;
                 }
