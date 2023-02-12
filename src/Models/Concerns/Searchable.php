@@ -44,6 +44,11 @@ trait Searchable
         return $query->{$scope}($term);
     }
 
+    protected function addOrScope(Builder $query, $scope, $term)
+    {
+        return $query->orWhere(fn ($q) => $q->{$scope}($term));
+    }
+
     protected function addConstraint(Builder $query, $searchables, $term)
     {
         $query->where(function (Builder $query) use ($term, $searchables) {
@@ -54,6 +59,11 @@ trait Searchable
                 }
 
                 if (!isset($searchable['relation'])) {
+                    if ($searchable['scope'] ?? null) {
+                        $this->addOrScope($query, $searchable['scope'], $term);
+                        continue;
+                    }
+
                     $this->shouldConcat($searchable['column']) ?
                         $query->orWhere(DB::raw(
                             "CONCAT({$this->searchGetConcatString($searchable['column'])})"),
