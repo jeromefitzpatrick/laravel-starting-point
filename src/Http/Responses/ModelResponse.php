@@ -75,7 +75,7 @@ abstract class ModelResponse
     /**
      * Returns the transformed collection as an array
      */
-    public function transformedCollection(Builder $query, array $includes = null): array
+    public function transformedCollection(Builder $query, array $includes = null, array $meta = []): array
     {
         $includes = $this->getIncludes($includes);
         $resources = $query
@@ -87,7 +87,7 @@ abstract class ModelResponse
             ->transformWith($this->getTransformer())
             ->parseIncludes($includes)
             ->paginateWith(new IlluminatePaginatorAdapter($resources))
-            ->addMeta($this->getMeta())
+            ->addMeta($this->getMeta() ?: $meta)
             ->toArray();
     }
 
