@@ -106,7 +106,7 @@ abstract class ModelResponse
     {
         return array_filter(array_map(function($include) {
             $camelCased = Str::camel($include);
-            if (method_exists($this->getModel(), $camelCased) || strpos($include, '.')) {
+            if (method_exists($this->getModel(), Str::before($camelCased, '.'))) {
                 return $camelCased;
             }
             return null;
