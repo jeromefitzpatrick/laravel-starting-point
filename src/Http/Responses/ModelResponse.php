@@ -60,7 +60,7 @@ abstract class ModelResponse
     /**
      * Returns the transformed item as an array
      */
-    public function transformed(Model $resource, array $includes = null): array
+    public function transformed(Model $resource, ?array $includes = null): array
     {
         $includes = $this->getIncludes($includes);
         $resource->loadMissing($this->extractRelations($includes));
@@ -75,7 +75,7 @@ abstract class ModelResponse
     /**
      * Returns the transformed collection as an array
      */
-    public function transformedCollection(Builder $query, array $includes = null, array $meta = []): array
+    public function transformedCollection(Builder $query, ?array $includes = null, array $meta = []): array
     {
         $includes = $this->getIncludes($includes);
         $resources = $query
@@ -94,7 +94,7 @@ abstract class ModelResponse
     /**
      * Returns merged requested includes and default includes
      */
-    public function getIncludes(array $includes = null): array
+    public function getIncludes(?array $includes = null): array
     {
         return array_unique(array_merge($includes ?? [], $this->getDefaultRelations() ?? []));
     }
